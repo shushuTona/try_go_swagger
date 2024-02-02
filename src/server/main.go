@@ -17,7 +17,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	api := operations.NewSwaggerPracticeAPI(swaggerSpec)
+	api := operations.NewTryGoSwaggerAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 

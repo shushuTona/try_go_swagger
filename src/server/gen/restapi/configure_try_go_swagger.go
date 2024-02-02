@@ -8,18 +8,19 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
 
 	"try_go_swagger/gen/restapi/operations"
-	"try_go_swagger/handler"
+	"try_go_swagger/gen/restapi/operations/task"
 )
 
-//go:generate swagger generate server --target ../../gen --name SwaggerPractice --spec ../../../swagger/swagger.yaml --principal interface{}
+//go:generate swagger generate server --target ../../gen --name TryGoSwagger --spec ../../../swagger/swagger.yaml --principal interface{} --exclude-main
 
-func configureFlags(api *operations.SwaggerPracticeAPI) {
+func configureFlags(api *operations.TryGoSwaggerAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
 
-func configureAPI(api *operations.SwaggerPracticeAPI) http.Handler {
+func configureAPI(api *operations.TryGoSwaggerAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 
@@ -37,7 +38,11 @@ func configureAPI(api *operations.SwaggerPracticeAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	api.HelloHandler = operations.HelloHandlerFunc(handler.GetHello)
+	if api.TaskAddTaskHandler == nil {
+		api.TaskAddTaskHandler = task.AddTaskHandlerFunc(func(params task.AddTaskParams) middleware.Responder {
+			return middleware.NotImplemented("operation task.AddTask has not yet been implemented")
+		})
+	}
 
 	api.PreServerShutdown = func() {}
 

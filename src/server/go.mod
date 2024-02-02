@@ -9,6 +9,7 @@ require (
 	github.com/go-openapi/spec v0.20.14
 	github.com/go-openapi/strfmt v0.22.0
 	github.com/go-openapi/swag v0.22.9
+	github.com/go-openapi/validate v0.22.4
 	github.com/jessevdk/go-flags v1.5.0
 	golang.org/x/net v0.20.0
 )
@@ -19,7 +20,6 @@ require (
 	github.com/go-openapi/analysis v0.22.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.2 // indirect
 	github.com/go-openapi/jsonreference v0.20.4 // indirect
-	github.com/go-openapi/validate v0.22.4 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect

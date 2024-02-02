@@ -23,25 +23,124 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Swagger Practice",
+    "description": "description",
+    "title": "try_go_swagger",
     "version": "1.0.0"
   },
+  "host": "localhost",
+  "basePath": "/api",
   "paths": {
-    "/hello": {
-      "get": {
-        "operationId": "hello",
+    "/task": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "task"
+        ],
+        "summary": "Add a new task to the store",
+        "operationId": "addTask",
+        "parameters": [
+          {
+            "description": "task object that needs to be added to the store",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "description": "response text",
-              "type": "string"
-            }
+            "description": "Success input"
+          },
+          "400": {
+            "$ref": "#/responses/Error"
+          },
+          "422": {
+            "$ref": "#/responses/Error"
           }
         }
       }
     }
-  }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "message": {
+          "description": "error message",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "desc": {
+          "type": "string"
+        },
+        "status": {
+          "description": "task Status",
+          "type": "string",
+          "default": "Waiting",
+          "enum": [
+            "Waiting",
+            "Processing",
+            "Closed"
+          ]
+        },
+        "taskId": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "TaskId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "number of items to skip",
+      "name": "taskId",
+      "in": "query",
+      "required": true
+    }
+  },
+  "responses": {
+    "Error": {
+      "description": "Entity not found.",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Access to task",
+      "name": "task"
+    }
+  ]
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
@@ -49,24 +148,129 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Swagger Practice",
+    "description": "description",
+    "title": "try_go_swagger",
     "version": "1.0.0"
   },
+  "host": "localhost",
+  "basePath": "/api",
   "paths": {
-    "/hello": {
-      "get": {
-        "operationId": "hello",
+    "/task": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "task"
+        ],
+        "summary": "Add a new task to the store",
+        "operationId": "addTask",
+        "parameters": [
+          {
+            "description": "task object that needs to be added to the store",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success input"
+          },
+          "400": {
+            "description": "Entity not found.",
             "schema": {
-              "description": "response text",
-              "type": "string"
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Entity not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
       }
     }
-  }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "message": {
+          "description": "error message",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "desc": {
+          "type": "string"
+        },
+        "status": {
+          "description": "task Status",
+          "type": "string",
+          "default": "Waiting",
+          "enum": [
+            "Waiting",
+            "Processing",
+            "Closed"
+          ]
+        },
+        "taskId": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "TaskId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "number of items to skip",
+      "name": "taskId",
+      "in": "query",
+      "required": true
+    }
+  },
+  "responses": {
+    "Error": {
+      "description": "Entity not found.",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Access to task",
+      "name": "task"
+    }
+  ]
 }`))
 }
