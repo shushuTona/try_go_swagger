@@ -8,12 +8,12 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/runtime/middleware"
 
 	"try_go_swagger/gen/restapi/operations"
+	"try_go_swagger/handler"
 )
 
-//go:generate swagger generate server --target ../../gen --name SwaggerPractice --spec ../../swagger/swagger.yaml --principal interface{}
+//go:generate swagger generate server --target ../../gen --name SwaggerPractice --spec ../../../swagger/swagger.yaml --principal interface{}
 
 func configureFlags(api *operations.SwaggerPracticeAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -37,11 +37,7 @@ func configureAPI(api *operations.SwaggerPracticeAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.HelloHandler == nil {
-		api.HelloHandler = operations.HelloHandlerFunc(func(params operations.HelloParams) middleware.Responder {
-			return middleware.NotImplemented("operation operations.Hello has not yet been implemented")
-		})
-	}
+	api.HelloHandler = operations.HelloHandlerFunc(handler.GetHello)
 
 	api.PreServerShutdown = func() {}
 

@@ -4,10 +4,15 @@ services:
     container_name: server
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.server
     ports:
-      - '8085:8000'
+      - ':8000'
     volumes:
-      - ./src:/go/src
+      - type: bind
+        source: ./src/server
+        target: /go/src/server
+      - type: bind
+        source: ./src/swagger
+        target: /go/src/swagger
     restart: always
     tty: true
