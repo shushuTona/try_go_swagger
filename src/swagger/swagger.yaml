@@ -1,16 +1,240 @@
- swagger: "2.0"
- info:
-   title: Swagger Practice
-   version: 1.0.0
- schemes:
- - http
- paths:
-   /hello:
-     get:
-       operationId: hello
-       responses:
-         200:
-           description: OK
-           schema:
-             type: string
-             description: response text
+swagger: "2.0"
+info:
+  description: description
+  version: "1.0.0"
+  title: try_go_swagger
+
+host: localhost
+
+basePath: /api
+
+tags:
+- name: task
+  description: "Access to task"
+
+schemes:
+- http
+
+paths:
+  /task:
+    post:
+      tags:
+      - task
+      summary: "Add a new task to the store"
+      description: ""
+      operationId: "addTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "task object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        "200":
+          description: Success input
+        "400":
+          $ref: '#/responses/Error'
+        "422":
+          $ref: '#/responses/Error'
+
+    # put:
+    #   tags:
+    #   - task
+    #   summary: "Update an existing pet"
+    #   description: ""
+    #   operationId: "updatePet"
+    #   consumes:
+    #   - "application/json"
+    #   - "application/xml"
+    #   produces:
+    #   - "application/xml"
+    #   - "application/json"
+    #   parameters:
+    #   - in: "body"
+    #     name: "body"
+    #     description: "Pet object that needs to be added to the store"
+    #     required: true
+    #     schema:
+    #       $ref: "#/definitions/Task"
+    #   responses:
+    #     "400":
+    #       description: "Invalid ID supplied"
+    #     "404":
+    #       description: "Pet not found"
+    #     "422":
+    #       description: "Validation exception"
+
+  # /task/findByStatus:
+  #   get:
+  #     tags:
+  #     - task
+  #     summary: "Finds task by status"
+  #     description: "Multiple status values can be provided with comma separated strings"
+  #     operationId: "findTaskByStatus"
+  #     produces:
+  #     - "application/xml"
+  #     - "application/json"
+  #     parameters:
+  #     - name: "status"
+  #       in: "query"
+  #       description: "Status values that need to be considered for filter"
+  #       required: true
+  #       type: "array"
+  #       items:
+  #         type: "string"
+  #         enum:
+  #         - "available"
+  #         - "pending"
+  #         - "sold"
+  #         default: "available"
+  #       collectionFormat: "multi"
+  #     responses:
+  #       "200":
+  #         description: "successful operation"
+  #         schema:
+  #           type: "array"
+  #           items:
+  #             $ref: "#/definitions/Pet"
+  #       "400":
+  #         description: "Invalid status value"
+
+  # /task/{taskId}:
+  #   get:
+  #     tags:
+  #     - task
+  #     summary: "Find task by ID"
+  #     description: "Returns a single pet"
+  #     operationId: "getPetById"
+  #     produces:
+  #     - "application/xml"
+  #     - "application/json"
+  #     parameters:
+  #     - name: taskId
+  #       in: "path"
+  #       description: "ID of task to return"
+  #       required: true
+  #       type: "integer"
+  #       format: "int64"
+  #     responses:
+  #       "200":
+  #         description: "successful operation"
+  #         schema:
+  #           $ref: "#/definitions/task"
+  #       "400":
+  #         description: "Invalid ID supplied"
+  #       "404":
+  #         description: "task not found"
+
+  #   post:
+  #     tags:
+  #     - task
+  #     summary: "Updates a task in the store with form data"
+  #     description: ""
+  #     operationId: "updateTaskWithForm"
+  #     consumes:
+  #     - "application/x-www-form-urlencoded"
+  #     produces:
+  #     - "application/xml"
+  #     - "application/json"
+  #     parameters:
+  #     - name: taskId
+  #       in: "path"
+  #       description: "ID of pet that needs to be updated"
+  #       required: true
+  #       type: "integer"
+  #       format: "int64"
+  #     - name: "name"
+  #       in: "formData"
+  #       description: "Updated name of the pet"
+  #       required: false
+  #       type: "string"
+  #     - name: "status"
+  #       in: "formData"
+  #       description: "Updated status of the pet"
+  #       required: false
+  #       type: "string"
+  #     responses:
+  #       "400":
+  #         description: Invalid input
+  #       "422":
+  #         description: Validation exception
+
+  #   delete:
+  #     tags:
+  #     - task
+  #     summary: "Deletes a pet"
+  #     description: ""
+  #     operationId: "deletePet"
+  #     produces:
+  #     - "application/xml"
+  #     - "application/json"
+  #     parameters:
+  #     - name: taskId
+  #       in: "path"
+  #       description: "Pet id to delete"
+  #       required: true
+  #       type: "integer"
+  #       format: "int64"
+  #     responses:
+  #       "400":
+  #         description: "Invalid ID supplied"
+  #       "404":
+  #         description: "Pet not found"
+
+definitions:
+  Task:
+    type: "object"
+    properties:
+      taskId:
+        type: "integer"
+        format: "int64"
+        readOnly: true
+      status:
+        type: "string"
+        description: "task Status"
+        enum:
+        - "Waiting"
+        - "Processing"
+        - "Closed"
+        default: "Waiting"
+      title:
+        type: "string"
+      desc:
+        type: "string"
+      createdDate:
+        type: "string"
+        format: "date-time"
+        readOnly: true
+
+  ErrorResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int64"
+        description: "status code"
+        readOnly: true
+      message:
+        type: "string"
+        description: "error message"
+        readOnly: true
+
+parameters:
+  TaskId:
+    name: taskId
+    type: "integer"
+    format: "int64"
+    in: query
+    description: number of items to skip
+    required: true
+
+responses:
+  Error:
+    description: Entity not found.
+    schema:
+      $ref: '#/definitions/ErrorResponse'
