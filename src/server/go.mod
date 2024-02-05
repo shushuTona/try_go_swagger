@@ -10,6 +10,7 @@ require (
 	github.com/go-openapi/strfmt v0.22.0
 	github.com/go-openapi/swag v0.22.9
 	github.com/go-openapi/validate v0.22.4
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/jessevdk/go-flags v1.5.0
 	golang.org/x/net v0.20.0
 )
