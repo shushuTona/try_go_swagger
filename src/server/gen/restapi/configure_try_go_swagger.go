@@ -45,6 +45,8 @@ func configureAPI(api *operations.TryGoSwaggerAPI) http.Handler {
 		})
 	}
 
+	// task
+	api.TaskGetTaskHandler = task.GetTaskHandlerFunc(taskHandler.GetTask)
 	api.TaskAddTaskHandler = task.AddTaskHandlerFunc(taskHandler.AddTask)
 
 	api.PreServerShutdown = func() {}

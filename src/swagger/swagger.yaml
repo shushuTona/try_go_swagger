@@ -17,6 +17,23 @@ schemes:
 
 paths:
   /task:
+    get:
+      tags:
+      - task
+      summary: "Get all task list"
+      description: "Returns task list"
+      operationId: "getTask"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "success get task list"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Task"
+        "500":
+          $ref: '#/responses/Error'
     post:
       tags:
       - task
@@ -40,6 +57,8 @@ paths:
         "400":
           $ref: '#/responses/Error'
         "422":
+          $ref: '#/responses/Error'
+        "500":
           $ref: '#/responses/Error'
 
     # put:

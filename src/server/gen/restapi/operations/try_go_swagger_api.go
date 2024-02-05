@@ -47,6 +47,9 @@ func NewTryGoSwaggerAPI(spec *loads.Document) *TryGoSwaggerAPI {
 		TaskAddTaskHandler: task.AddTaskHandlerFunc(func(params task.AddTaskParams) middleware.Responder {
 			return middleware.NotImplemented("operation task.AddTask has not yet been implemented")
 		}),
+		TaskGetTaskHandler: task.GetTaskHandlerFunc(func(params task.GetTaskParams) middleware.Responder {
+			return middleware.NotImplemented("operation task.GetTask has not yet been implemented")
+		}),
 	}
 }
 
@@ -85,6 +88,8 @@ type TryGoSwaggerAPI struct {
 
 	// TaskAddTaskHandler sets the operation handler for the add task operation
 	TaskAddTaskHandler task.AddTaskHandler
+	// TaskGetTaskHandler sets the operation handler for the get task operation
+	TaskGetTaskHandler task.GetTaskHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -164,6 +169,9 @@ func (o *TryGoSwaggerAPI) Validate() error {
 
 	if o.TaskAddTaskHandler == nil {
 		unregistered = append(unregistered, "task.AddTaskHandler")
+	}
+	if o.TaskGetTaskHandler == nil {
+		unregistered = append(unregistered, "task.GetTaskHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -257,6 +265,10 @@ func (o *TryGoSwaggerAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/task"] = task.NewAddTask(o.context, o.TaskAddTaskHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/task"] = task.NewGetTask(o.context, o.TaskGetTaskHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

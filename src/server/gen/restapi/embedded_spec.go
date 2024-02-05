@@ -31,6 +31,31 @@ func init() {
   "basePath": "/api",
   "paths": {
     "/task": {
+      "get": {
+        "description": "Returns task list",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "task"
+        ],
+        "summary": "Get all task list",
+        "operationId": "getTask",
+        "responses": {
+          "200": {
+            "description": "success get task list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -62,6 +87,9 @@ func init() {
             "$ref": "#/responses/Error"
           },
           "422": {
+            "$ref": "#/responses/Error"
+          },
+          "500": {
             "$ref": "#/responses/Error"
           }
         }
@@ -156,6 +184,34 @@ func init() {
   "basePath": "/api",
   "paths": {
     "/task": {
+      "get": {
+        "description": "Returns task list",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "task"
+        ],
+        "summary": "Get all task list",
+        "operationId": "getTask",
+        "responses": {
+          "200": {
+            "description": "success get task list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          },
+          "500": {
+            "description": "Entity not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -190,6 +246,12 @@ func init() {
             }
           },
           "422": {
+            "description": "Entity not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
             "description": "Entity not found.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
