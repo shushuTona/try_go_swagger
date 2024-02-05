@@ -12,6 +12,7 @@ import (
 
 	"try_go_swagger/gen/restapi/operations"
 	"try_go_swagger/gen/restapi/operations/task"
+	taskHandler "try_go_swagger/handler/task"
 )
 
 //go:generate swagger generate server --target ../../gen --name TryGoSwagger --spec ../../../swagger/swagger.yaml --principal interface{} --exclude-main
@@ -43,6 +44,8 @@ func configureAPI(api *operations.TryGoSwaggerAPI) http.Handler {
 			return middleware.NotImplemented("operation task.AddTask has not yet been implemented")
 		})
 	}
+
+	api.TaskAddTaskHandler = task.AddTaskHandlerFunc(taskHandler.AddTask)
 
 	api.PreServerShutdown = func() {}
 
