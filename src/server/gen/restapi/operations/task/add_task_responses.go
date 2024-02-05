@@ -127,3 +127,48 @@ func (o *AddTaskUnprocessableEntity) WriteResponse(rw http.ResponseWriter, produ
 		}
 	}
 }
+
+// AddTaskInternalServerErrorCode is the HTTP code returned for type AddTaskInternalServerError
+const AddTaskInternalServerErrorCode int = 500
+
+/*
+AddTaskInternalServerError Entity not found.
+
+swagger:response addTaskInternalServerError
+*/
+type AddTaskInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewAddTaskInternalServerError creates AddTaskInternalServerError with default headers values
+func NewAddTaskInternalServerError() *AddTaskInternalServerError {
+
+	return &AddTaskInternalServerError{}
+}
+
+// WithPayload adds the payload to the add task internal server error response
+func (o *AddTaskInternalServerError) WithPayload(payload *models.ErrorResponse) *AddTaskInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the add task internal server error response
+func (o *AddTaskInternalServerError) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *AddTaskInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
