@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.server
     ports:
-      - ':8000'
+      - '8081:8000'
     volumes:
       - type: bind
         source: ./src/server
@@ -14,6 +14,21 @@ services:
       - type: bind
         source: ./src/swagger
         target: /go/src/swagger
+    restart: always
+    tty: true
+
+  front:
+    container_name: front
+    image: node:21
+    ports:
+      - '8080:8000'
+    volumes:
+      - type: bind
+        source: ./src/front
+        target: /src/front
+      - type: bind
+        source: ./src/swagger
+        target: /src/swagger
     restart: always
     tty: true
 
