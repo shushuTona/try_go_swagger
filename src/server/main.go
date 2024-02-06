@@ -45,6 +45,7 @@ func main() {
 	server.ConfigureAPI()
 
 	server.Port = 8000
+	server.Host = "0.0.0.0"
 
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)

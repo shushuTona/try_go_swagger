@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.server
     ports:
-      - '8081:8000'
+      - '8085:8000'
     volumes:
       - type: bind
         source: ./src/server
@@ -21,7 +21,7 @@ services:
     container_name: front
     image: node:21
     ports:
-      - '8080:8000'
+      - '8086:8000'
     volumes:
       - type: bind
         source: ./src/front
