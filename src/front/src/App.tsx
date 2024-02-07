@@ -1,36 +1,44 @@
+import { MouseEventHandler, ChangeEventHandler, useState, useCallback } from 'react'
 import './App.css'
-import {Task, Api} from './gen/api'
+import TaskList from './components/TaskList'
+import TaskForm from './components/TaskForm'
+import { Task, ErrorResponse } from './gen/api'
+import { api } from './api'
 import useSWR from 'swr'
 
-const fetcher = ( url: string ) => fetch( url ).then( ( r ) => {
-    const api = new Api()
-    api.task.getTask()
-  return r.json()
-} )
-
-function Profile() {
-  const { data, error, isLoading } = useSWR<Task[]>( 'http://localhost:8085/api/task', fetcher )
-
-  if ( error ) return <div>failed to load</div>
-  if ( isLoading ) return <div>loading...</div>
-  if ( data === undefined ) return <div>task is empty</div>
-
-  return <ul>{data.map((item) => (
-    <li key={item.taskId}>
-        <div>
-            <span>{item.title}</span>：<span>{item.desc}</span>
-        </div>
-    </li>
-  ))}</ul>
-}
-
 function App() {
+  const [title, setTitle] = useState("")
+  const [desc, setDesc] = useState( "" )
+
+  const getTaskFetcher = useCallback( () => api.task.getTask().then( ( r ) => r.data ), [] )
+  const { data, error, isLoading, mutate } = useSWR<Task[], ErrorResponse>( '/task', getTaskFetcher )
+
+  const inputTitleHandler: ChangeEventHandler<HTMLInputElement> = useCallback( ( e ) => setTitle( e.target.value ), [] )
+  const inputDescHandler: ChangeEventHandler<HTMLInputElement> = useCallback( ( e ) => setDesc( e.target.value ), [] )
+  const addTaskHandler: MouseEventHandler<HTMLButtonElement> = useCallback( async () => {
+    const body: Task = {
+      title: title,
+      desc: desc
+    }
+    await api.task.addTask( body ).then( ( r ) => { console.log( r ) } )
+    await mutate( [body])
+  }, [title, desc, mutate] )
+
   return (
     <>
       <h1>try_swagger</h1>
-      <div>
-        <Profile />
-      </div>
+      <TaskList
+        data={data}
+        error={error}
+        isLoading={isLoading}
+      />
+      <TaskForm
+        title={title}
+        desc={desc}
+        inputTitleHandler={inputTitleHandler}
+        inputDescHandler={inputDescHandler}
+        addTaskHandler={addTaskHandler}
+      />
     </>
   )
 }
